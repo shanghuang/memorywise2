@@ -2,10 +2,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//console.log("Creating User Model(models/index.ts)" + mongoose.models.UserModel);
+
 const userSchema = new Schema({
   // Define user fields here matching the GraphQL schema
-  first_name: { type: String, required: [true, "All fields are required"] },
-  last_name: {
+  name: {
     type: String,
     required: [true, "All fields are required"],
   },
@@ -13,11 +14,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, "All fields are required"],
   },
-  age: {
+  password: {
     type: String,
     required: [true, "All fields are required"],
   },
-  active: Boolean,
+  //active: Boolean,
 });
 
 export default mongoose.models.UserModel ||

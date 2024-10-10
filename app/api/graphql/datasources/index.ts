@@ -5,13 +5,23 @@ import { ObjectId } from "mongodb";
 
 interface UserDocument {
   _id: ObjectId;
-  username: string;
+  name: string;
   password: string;
   email: string;
-  interests: [string];
+  //interests: [string];
 }
 
 export default class Users extends MongoDataSource<UserDocument> {
+  
+  // Function to get user
+  async getUser(name:string) {
+    try {
+      return await UserModel.find({name: name});
+    } catch (error) {
+      throw new Error("Failed to fetch users");
+    }
+  }
+
   // Function to fetch all users
   async getAllUsers() {
     try {
@@ -24,9 +34,25 @@ export default class Users extends MongoDataSource<UserDocument> {
   // Function to create a new user
   async createUser({ input }: any) {
     try {
+      //console.log("Creating new user(datasources):" + input.name  );
+      //console.log("Creating new user(datasources):" + {...input}  );
       return await UserModel.create({ ...input });
     } catch (error) {
-      throw new Error("Failed to create user");
+      throw new Error("Failed to create user"); 
+    }
+  }
+
+  // Function to update existing user
+  async findUserByEmail({ input }: any) {
+    try {
+      console.log("findUserByEmail userModel:" + UserModel);  
+      console.log("findUserByEmail(datasources):" + input.email);
+      const foundUser = await UserModel.findOne(
+        input.email
+      );
+      return foundUser;
+    } catch (error) {
+      throw new Error("Failed to find user");
     }
   }
 

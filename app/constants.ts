@@ -1,14 +1,21 @@
 import { gql } from "@apollo/client";
 
+export const GET_USER = gql`
+  query getUser($name: String!) {
+    user(name: $name) {
+      id
+      name
+      email
+    }
+  }
+`;
+
 export const FETCH_USERS = gql`
   query getUsers {
     users {
       id
-      age
+      name
       email
-      first_name
-      last_name
-      active
     }
   }
 `;
@@ -16,12 +23,9 @@ export const FETCH_USERS = gql`
 export const CREATE_USER = gql`
   mutation createUser($input: NewUserInput!) {
     createUser(input: $input) {
-      active
-      age
+      name
       email
-      first_name
       id
-      last_name
     }
   }
 `;
@@ -29,12 +33,9 @@ export const CREATE_USER = gql`
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
-      active
-      age
       email
       id
-      first_name
-      last_name
+      name
     }
   }
 `;

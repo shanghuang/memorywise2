@@ -1,5 +1,19 @@
+//import {bcrypt} from "bcrypt";
+const bcrypt = require('bcrypt');
+
 const resolvers = {
   Query: {
+    user: async (
+      _: any,
+      __: any,
+      context: { dataSources: { user: { getUser: () => any } } }
+    ) => {
+      try {
+        return await context.dataSources.user.getUser();
+      } catch (error) {
+        throw new Error("Failed to fetch users");
+      }
+    },
     users: async (
       _: any,
       __: any,
@@ -15,6 +29,11 @@ const resolvers = {
   Mutation: {
     createUser: async (_: any, { input }: any, context: any) => {
       try {
+        //console.log("Creating new user:" + input.password);
+        //console.log("bcrypt.hash:" + bcrypt.hash);
+        const hashedPassword = await bcrypt.hash(input.password, 5);
+        input.password = hashedPassword;
+        //console.log("createUser (users):" + context.dataSources.users);
         const newUser = await context.dataSources.users.createUser({
           input,
         });

@@ -9,6 +9,8 @@ import UserModel from "./models";
 
 const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
 
+console.log("graphql/resolver.ts");
+
 const connectDB = async () => {
   try {
     if (uri) {
@@ -19,6 +21,8 @@ const connectDB = async () => {
     console.error(error);
   }
 };
+
+console.log("calling connectDB()" + uri);
 connectDB();
 
 const server = new ApolloServer({
