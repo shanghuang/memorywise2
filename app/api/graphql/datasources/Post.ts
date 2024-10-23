@@ -1,53 +1,49 @@
 // MongoDB Data Source for Users
-import UserModel from "../models";
+import Post from "@/app/components/Posts";
+import PostModel from "../models/postSchema";
 import { MongoDataSource } from "apollo-datasource-mongodb";
 import { ObjectId } from "mongodb";
 
-interface UserDocument {
+interface PostDocument {
   _id: ObjectId;
-  name: string;
+  userName: string;
   password: string;
   email: string;
   //interests: [string];
 }
 
-export default class Users extends MongoDataSource<UserDocument> {
+export default class Posts extends MongoDataSource<PostDocument> {
   
   // Function to get user
-  async getUser(name:string) {
+  async getPost(name:string) {
     try {
-      return await UserModel.find({name: name});
+      return await PostModel.find({name: name});
     } catch (error) {
       throw new Error("Failed to fetch users");
     }
   }
 
-  // Function to fetch all users
-  async getAllUsers() {
-    try {
-      return await UserModel.find();
-    } catch (error) {
-      throw new Error("Failed to fetch users");
-    }
-  }
 
   // Function to create a new user
-  async createUser({ input }: any) {
+  async createPost({post}: any) {
     try {
-      //console.log("Creating new user(datasources):" + input.name  );
+      console.log("Creating new post(datasources):"); console.log(post);
       //console.log("Creating new user(datasources):" + {...input}  );
-      return await UserModel.create({ ...input });
+      const res = await PostModel.create({ ...post });
+      console.log("createPost result:" + res);
+      return res;
+      //return await PostModel.create({ ...post });
     } catch (error) {
-      throw new Error("Failed to create user"); 
+      throw new Error("Failed to create post"); 
     }
   }
 
   // Function to update existing user
-  async findUserByEmail({ input }: any) {
+  async findPostByEmail({ input }: any) {
     try {
-      console.log("findUserByEmail userModel:" + UserModel);  
+      console.log("findUserByEmail userModel:" + PostModel);  
       console.log("findUserByEmail(datasources):" + input.email);
-      const foundUser = await UserModel.findOne(
+      const foundUser = await PostModel.findOne(
         input.email
       );
       return foundUser;
@@ -57,9 +53,9 @@ export default class Users extends MongoDataSource<UserDocument> {
   }
 
   // Function to update existing user
-  async updateUser({ input }: any) {
+  async updatePost({ input }: any) {
     try {
-      const updatedUser = await UserModel.findByIdAndUpdate(
+      const updatedUser = await PostModel.findByIdAndUpdate(
         input.id,
         { ...input },
         {
@@ -73,9 +69,9 @@ export default class Users extends MongoDataSource<UserDocument> {
   }
 
   // Function to delete existing user
-  async deleteUser({ id }: { id: string }): Promise<string> {
+  async deletePost({ id }: { id: string }): Promise<string> {
     try {
-      await UserModel.findByIdAndDelete(id);
+      await PostModel.findByIdAndDelete(id);
       return "User deleted successfully";
     } catch (error) {
       throw new Error("Failed to delete user");

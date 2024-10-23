@@ -4,8 +4,8 @@ import type { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
 //import User from "@/models/user"
-import Users from "../../graphql/datasources/index"
-import UserModel from "../../graphql/models/index";
+//import Users from "../../graphql/datasources/index"
+import UserModel from "../../graphql/models/userSchema";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
@@ -58,29 +58,48 @@ export const authOptions: AuthOptions = {
 
           const passwordsMatch = await bcrypt.compare(credentials?.password, user.password);
           //const passwordsMatch = encodedPassword === user.password;
-           
+           console.log("passwordsMatch: " + passwordsMatch);
           if (!passwordsMatch) {
             return null;
           }
-
-          return user;
+          console.log("authorize returning user id: " + user._id);
+        
+          return { email: user.email, id: user._id};
         } catch (error) {
           console.log("Error: ", error);
         }
-      }
+      },
+      /*async session({ session }) {
+        console.log("CredentialsProvider-session:"); console.log(session);
+        const user= await await UserModel.findOne({email: session?.user?.email});//fetchUser(session?.user?.email);
+        console.log("CredentialsProvider-user:"); console.log(user);
+        session.userId = user.id;
+        return session
+      },*/
     })
   ],
   session: { strategy: "jwt" },
   callbacks: {
+    /*async jwt({ token, account, profile }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = account?.providerAccountId;
+        console.log("jwt-account:"); console.log(account);
+        console.log("jwt-profile:"); console.log(profile);
+      }
+      return token
+    },*/
+
     async session({ session, user, token }: any) {
       console.log("session--->");
-      console.log(session);
-      console.log(user);
-      console.log(token);
+      console.log("session:"); console.log(session);
+      console.log("user:"); console.log(user);
+      console.log("token:"); console.log(token);
       console.log("session<");
       session.accessToken = token.accessToken;
-      session.idToken = token.idToken;
-      session.oktaId = token.oktaId;
+      session.id = token.sub;
+      //session.oktaId = token.oktaId;
       return session;
     },
   },

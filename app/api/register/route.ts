@@ -5,14 +5,14 @@ import bcrypt from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-  const { name, email, password } = await request.json();
+  const { userName, email, password } = await request.json();
 
   await connectMongoDB();
 
   const hashedPassword = await bcrypt.hash(password, 5);
 
   const newUser = new User({
-    name,
+    userName,
     email,
     password: hashedPassword,
   });

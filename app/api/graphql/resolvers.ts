@@ -29,7 +29,7 @@ const resolvers = {
   Mutation: {
     createUser: async (_: any, { input }: any, context: any) => {
       try {
-        //console.log("Creating new user:" + input.password);
+        console.log("Creating new user:" + input.userName);
         //console.log("bcrypt.hash:" + bcrypt.hash);
         const hashedPassword = await bcrypt.hash(input.password, 5);
         input.password = hashedPassword;
@@ -54,6 +54,20 @@ const resolvers = {
         return await context.dataSources.users.deleteUser({ id });
       } catch (error) {
         throw new Error("Failed to delete user");
+      }
+    },
+    addPost: async (_: any, { post }: any, context: any) => {
+      try {
+        console.log("Creating new post:"); console.log(post);
+
+        console.log("dataSources:"); console.log(context.dataSources.posts.createPost);
+        const created = await context.dataSources.posts.createPost({
+          post,
+        });
+        console.log("Created post:" + created);
+        return created;
+      } catch (error) {
+        throw new Error("Failed to create post:" + error);
       }
     },
   },

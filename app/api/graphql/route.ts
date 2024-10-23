@@ -2,10 +2,13 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import mongoose from "mongoose";
 import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
-import typeDefs from "./schema";
+//import typeDefs from "./schema";
+import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import Users from "./datasources";
-import UserModel from "./models";
+import Users from "./datasources/User";
+import User from "./models/userSchema";
+import Post from "./models/postSchema";
+import Posts from "./datasources/Post";
 
 const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
 
@@ -35,7 +38,8 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
     req,
     res,
     dataSources: {
-      users: new Users({ modelOrCollection: UserModel }),
+      users: new Users({ modelOrCollection: User }),
+      posts: new Posts({ modelOrCollection: Post }),
     },
   }),
 });

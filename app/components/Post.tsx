@@ -4,7 +4,9 @@ import useSWR, { Fetcher } from 'swr'
 import Card from './Card'
 
 const fetcher: Fetcher<PostType[]> = async (url: string) => {
-  const res = await fetch(url)
+  const res = await fetch(url,{
+    mode: 'no-cors'
+  })
   const data: Awaited<{ post: PostType[] }> = await res.json()
 
   return data.post

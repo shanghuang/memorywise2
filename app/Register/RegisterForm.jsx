@@ -45,13 +45,13 @@ export default function RegisterForm() {
     //  return;
     //}
 
-    const { name, email, password } = data || {};
+    const { userName, email, password } = data || {};
 
     
     let res = await createUser({
-      variables: { input: { name, email, password } },
+      variables: { input: { userName, email, password } },
     });
-    console.log("createUser result:" + res.data?.createUser?.name);
+    console.log("createUser result:" + res.data?.createUser?.userName);
 
     //refetch();
     //reset();
@@ -86,9 +86,9 @@ export default function RegisterForm() {
           <input
             type="text"
             placeholder="Name"
-            {...register("name", { required: true })}
+            {...register("userName", { required: true })}
           />
-          {errors.name && <span>Name is required</span>}
+          {errors.userName && <span>Name is required</span>}
           <input
             type="text"
             placeholder="Email"

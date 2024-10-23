@@ -21,12 +21,20 @@ export const FETCH_USERS = gql`
 `;
 
 export const CREATE_USER = gql`
-  mutation createUser($input: NewUserInput!) {
+  mutation createUser($input: UserInput!) {
     createUser(input: $input) {
-      name
+      userName
       email
       id
     }
+  }
+`;
+
+export const CREATE_POST = gql`
+  mutation createPost($post:PostInput!) {
+    addPost(post : $post){
+      id
+    } 
   }
 `;
 

@@ -1,29 +1,9 @@
 "use client";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
-//import { LikesType, PostType } from "../type";
-import Images from "./Images";
-//import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-//import { GoComment } from "react-icons/go";
-//import useMutation from "swr/mutation";
-//import { useSWRConfig } from "swr";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "../constants";
-//import "../globals.css";
 
-const isLike = (likes: Array<LikesType>, username: string): boolean => {
-  const find = likes?.find((like) => like.username === username);
-
-  if (find) return true;
-  return false;
-};
-
-const fetcher = (url: string) => {
-  return fetch(`https://p3social.vercel.app/api/post`).then((res) => res.json());
-};
 
 interface CardProps extends PostType {
   initialData: PostType[];
@@ -31,7 +11,7 @@ interface CardProps extends PostType {
 
 
 
-const PostEdit: React.FC<CardProps> = ({
+const PostFilter: React.FC<CardProps> = ({
   username,
   profile,
   image,
