@@ -9,6 +9,7 @@ import useMutation from "swr/mutation";
 import { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import profilePic from '@/public/default.jpg'
 
 const isLike = (likes: Array<LikesType>, username: string): boolean => {
   const find = likes?.find((like) => like.username === username);
@@ -29,7 +30,7 @@ const Card: React.FC<CardProps> = ({
   username,
   profile,
   image,
-  desc,
+  text,
   postId,
   likes,
   initialData,
@@ -117,6 +118,80 @@ const Card: React.FC<CardProps> = ({
     return handleLike(postId);
   };
 
+  profile = profile ? profile : profilePic;
+  image = image ? image : profilePic;
+
+  return (
+    <nav className="bg-white w-[80vw] md:w-[60vw] h-[24.5rem] lg:w-[40vw] xl:w-[40vw] rounded-xl shadow-sm">
+      <header
+        className={`w-full flex items-center gap-2 p-3`}
+      >
+        <div className="flex justify-around items-center gap-2">
+          <Link
+            href={`${
+              session?.user?.id === userId ? "/profile" : `/user/${userId}`
+            }`}
+          >
+          </Link>
+          <Link
+            href={`${
+              session?.user?.id === userId ? "/profile" : `/user/${userId}`
+            }`}
+          >
+            <p className="text-stone-700 text-sm">{username}</p>
+          </Link>
+        </div>
+       
+      </header>
+      <article className="w-full">
+        <section className="relative w-full h-[13rem]">
+
+        </section>
+        <section className="w-full p-3 flex items-center  gap-2">
+          {!isLike(likes, session?.user?.name!) ? (
+            <AiOutlineHeart
+              onClick={() => handleLike(postId)}
+              size={27}
+              className="cursor-pointer hover:text-stone-600"
+            />
+          ) : (
+            <AiFillHeart
+              onClick={() => handleDislike(postId)}
+              size={27}
+              className="cursor-pointer hover:text-stone-600"
+              color="#fa2077"
+            />
+          )}
+          <Link href={`/comment/${postId}`}>
+            <GoComment
+              size={27}
+              className="cursor-pointer  hover:text-stone-600"
+            />
+          </Link>
+        </section>
+      </article>
+      <footer className="w-full">
+        <p className="ml-4 text-stone-700 text-sm">
+          Liked by {likes?.length} and other{" "}
+        </p>
+        <div className="p-3 flex items-center gap-2">
+          <Link
+            href={`${
+              session?.user?.id === userId ? "/profile" : `/user/${userId}`
+            }`}
+          >
+            <p className="text-stone-800 font-[500] text-[.9rem]">{username}</p>
+          </Link>
+          <p className="text-stone-700 text-[.8rem]">{text}</p>
+        </div>
+      </footer>
+    </nav>
+  );
+};
+
+export default Card;
+
+/*
   return (
     <nav className="bg-white w-[80vw] md:w-[60vw] h-[24.5rem] lg:w-[40vw] xl:w-[40vw] rounded-xl shadow-sm">
       <header
@@ -178,7 +253,7 @@ const Card: React.FC<CardProps> = ({
       </article>
       <footer className="w-full">
         <p className="ml-4 text-stone-700 text-sm">
-          Liked by {likes.length} and other{" "}
+          Liked by {likes?.length} and other{" "}
         </p>
         <div className="p-3 flex items-center gap-2">
           <Link
@@ -193,7 +268,4 @@ const Card: React.FC<CardProps> = ({
       </footer>
     </nav>
   );
-};
-
-export default Card;
-
+*/

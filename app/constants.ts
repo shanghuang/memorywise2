@@ -38,6 +38,18 @@ export const CREATE_POST = gql`
   }
 `;
 
+export const QUERY_POST = gql`
+    query queryPosts($keyword:String) {
+      posts : queryPosts(keyword:$keyword){
+        id
+        user
+        text
+        image
+        date
+      }
+    }`;
+
+
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {

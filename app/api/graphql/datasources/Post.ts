@@ -39,6 +39,20 @@ export default class Posts extends MongoDataSource<PostDocument> {
   }
 
   // Function to update existing user
+  async queryPosts( input : any) {
+    try {
+      console.log("queryPost :"); + console.log(input); 
+      console.log("queryPost(datasources):" + input.keyword);
+      const foundPosts = await PostModel.find(
+        { keyword: input.keyword}
+      );
+      return foundPosts;
+    } catch (error) {
+      throw new Error("Failed to query post");
+    }
+  }
+
+  // Function to update existing user
   async findPostByEmail({ input }: any) {
     try {
       console.log("findUserByEmail userModel:" + PostModel);  

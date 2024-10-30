@@ -25,6 +25,16 @@ const resolvers = {
         throw new Error("Failed to fetch users");
       }
     },
+    queryPosts: async (_: any, { keyword }: any, context: any) => {
+      console.log("resolvers.ts:queryPosts");
+      try {
+        console.log("Querying posts with keyword: ");  console.log(keyword);
+        return await context.dataSources.posts.queryPosts({ keyword });
+      } catch (error) {
+        throw new Error("Failed to query posts");
+      }
+
+    }
   },
   Mutation: {
     createUser: async (_: any, { input }: any, context: any) => {
@@ -70,6 +80,8 @@ const resolvers = {
         throw new Error("Failed to create post:" + error);
       }
     },
+
+    
   },
 };
 

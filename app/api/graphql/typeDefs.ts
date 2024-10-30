@@ -132,6 +132,8 @@ const typeDefs = `#graphql
 
     input PostInput{
         user:ID
+        username:String
+        keyword:String
         text:String
         image:String
         date:Date
@@ -147,6 +149,7 @@ const typeDefs = `#graphql
     type PostOutput{
         id:ID
         user:ID
+        keyword:String
         text:String
         image:String
         date:Date
@@ -231,6 +234,7 @@ const typeDefs = `#graphql
     type Query{
         user: User
         users: [User]
+        queryPosts(keyword:String):[PostOutput]
     }
 
     type Mutation{

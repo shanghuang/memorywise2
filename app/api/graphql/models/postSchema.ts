@@ -4,6 +4,12 @@ const postSchema = new mongoose.Schema({
     user: {
         type: mongoose.Types.ObjectId, ref: 'Users'
     },
+    username: {
+        type: String
+    },
+    keyword: {
+        type: String
+    },
     text: {
         type: String
     },
@@ -18,6 +24,6 @@ const postSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.models.PostModel || mongoose.model('Post', postSchema);
+export default mongoose.models.Post || mongoose.model('Post', postSchema);
 
 //export { postSchema};
