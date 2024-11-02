@@ -28,19 +28,22 @@ interface CardProps extends PostType {
 
 const Card: React.FC<CardProps> = ({
   username,
-  profile,
-  image,
+  keyword,
+  //profile,
+  //image,
   text,
-  postId,
-  likes,
   initialData,
-  userId,
+  _id,   //postId,
+  likes,
+  user, //user Id
+  date,
 }) => {
   const { data: session } = useSession();
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const { trigger } = useMutation("https://p3social.vercel.app/api/post", fetcher);
-
+  const userId = user;
+  const postId = _id;
   const handleLike = async (postId: string) => {
     const mappedData = initialData.map((data) => {
       if (data.postId === postId) {
@@ -118,8 +121,8 @@ const Card: React.FC<CardProps> = ({
     return handleLike(postId);
   };
 
-  profile = profile ? profile : profilePic;
-  image = image ? image : profilePic;
+  //profile = profile ? profile : profilePic;
+  //image = image ? image : profilePic;
 
   return (
     <nav className="bg-white w-[80vw] md:w-[60vw] h-[24.5rem] lg:w-[40vw] xl:w-[40vw] rounded-xl shadow-sm">

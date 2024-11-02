@@ -43,6 +43,7 @@ export const QUERY_POST = gql`
       posts : queryPosts(keyword:$keyword){
         id
         user
+        username
         text
         image
         date

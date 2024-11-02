@@ -149,6 +149,7 @@ const typeDefs = `#graphql
     type PostOutput{
         id:ID
         user:ID
+        username:String
         keyword:String
         text:String
         image:String

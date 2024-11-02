@@ -1,5 +1,5 @@
 // MongoDB Data Source for Users
-import Post from "@/app/components/Posts";
+import Post from "@/app/components/PostQuery";
 import PostModel from "../models/postSchema";
 import { MongoDataSource } from "apollo-datasource-mongodb";
 import { ObjectId } from "mongodb";

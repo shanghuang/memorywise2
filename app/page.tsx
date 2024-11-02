@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import Posts from "./components/Posts"
+import Posts from "./components/PostQuery"
 import PostEdit from "./components/PostEdit";
 
 export default async function Home() {

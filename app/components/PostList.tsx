@@ -14,7 +14,7 @@ import Card from './Card'
   return data.post
 }*/
 
-const Post = ({keyword}) => {
+const PostList = ({keyword}) => {
   //const { data: posts } = useSWR(`https://p3social.vercel.app/api/post`, fetcher)
   console.log("Post keyword:"+keyword);
 
@@ -33,4 +33,4 @@ const Post = ({keyword}) => {
     </main>
   )
 }
-export default Post
+export default PostList

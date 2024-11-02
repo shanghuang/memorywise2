@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import Posts from "./Post";
+import PostList from "./PostList";
 
 
-const Post =  () => {
+const PostQuery =  () => {
 
   const [keyword, setKeyword] = useState("");
   const { data: session, status } = useSession()
@@ -44,11 +44,11 @@ const Post =  () => {
       </div>
     </form>
     
-    <Posts keyword={keyword}/>
+    <PostList keyword={keyword}/>
 
     </main>
   );
 };
 
-export default Post;
+export default PostQuery;
 
