@@ -1,6 +1,7 @@
 // MongoDB Data Source for Users
-import Post from "@/app/components/PostQuery";
+//import Post from "@/app/components/PostQuery";
 import PostModel from "../models/postSchema";
+import CommentsModel from "../models/commentsSchema";
 import { MongoDataSource } from "apollo-datasource-mongodb";
 import { ObjectId } from "mongodb";
 
@@ -29,8 +30,11 @@ export default class Posts extends MongoDataSource<PostDocument> {
     try {
       console.log("Creating new post(datasources):"); console.log(post);
       //console.log("Creating new user(datasources):" + {...input}  );
-      const res = await PostModel.create({ ...post });
+
+      const emptyComments = await CommentsModel.create({ comments : [] });
+      const res = await PostModel.create({ ...post, comments: emptyComments });
       console.log("createPost result:" + res);
+      await CommentsModel.findOneAndUpdate({_id:emptyComments._id}, {parentPost:res._id});
       return res;
       //return await PostModel.create({ ...post });
     } catch (error) {
@@ -41,12 +45,25 @@ export default class Posts extends MongoDataSource<PostDocument> {
   // Function to update existing user
   async queryPosts( input : any) {
     try {
-      console.log("queryPost :"); + console.log(input); 
+      console.log("queryPost :"); console.log(input); 
       console.log("queryPost(datasources):" + input.keyword);
       const foundPosts = await PostModel.find(
         { keyword: input.keyword}
       );
       return foundPosts;
+    } catch (error) {
+      throw new Error("Failed to query post");
+    }
+  }
+
+  async queryPostById( input : any) {
+    try {
+      console.log("queryPostById :");  console.log(input); 
+      console.log("queryPostById(datasources):" + input.id);
+      const foundPost = await PostModel.findOne(
+        { _id: input.id}
+      );
+      return foundPost;
     } catch (error) {
       throw new Error("Failed to query post");
     }

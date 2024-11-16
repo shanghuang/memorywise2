@@ -5,14 +5,18 @@ import { CommentType } from "../type"
 import Images from "./Images"
 import { TbHourglassEmpty } from 'react-icons/tb'
 import React, { ChangeEvent, useState } from "react"
-import { useRouter } from "next/navigation"
+//import { useRouter } from "next/navigation"
+import { useMutation } from "@apollo/client";
 import BoxComment from "./BoxComment"
+import { CREATE_COMMENT } from "../constants";
 
-const Comments: React.FC<{ comments: CommentType[], session: Session | null, postId: string }> = ({ comments, session, postId }) => {
+const Comments: React.FC<{ comments: CommentType[], session: Session | null, postId: string }> = (
+  { comments, session, postId }) => {
   const [desc, setDesc] = useState("")
   const [isAdding, setIsAdding] = useState(false)
   const [success, setSuccess] = useState("")
-  const router = useRouter()
+  //const router = useRouter()
+  const [createComment] = useMutation(CREATE_COMMENT);
 
   const handleComment = (e: ChangeEvent<HTMLInputElement>) => {
     setDesc(e.target.value)
@@ -22,13 +26,26 @@ const Comments: React.FC<{ comments: CommentType[], session: Session | null, pos
     if (!desc) return alert("Cannot Send Comment without Description..")
 
     setIsAdding(true)
-    const res = await fetch(`https://p3social.vercel.app/api/comment`, {
+    /*const res = await fetch(`https://p3social.vercel.app/api/comment`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ postId, username: session?.user?.name, profile: session?.user?.image, desc })
-    })
+    })*/
+
+    const postDate = new Date();
+    const userId = session?.id; 
+
+    const res = await createComment({
+      variables: { comment: { 
+        parent : postId,
+        parentType : "post",
+        user : userId, 
+        username : session?.user?.email,
+        text : desc, 
+        date : postDate } },
+    });
 
     if (res.ok) {
       setIsAdding(false)
@@ -36,7 +53,7 @@ const Comments: React.FC<{ comments: CommentType[], session: Session | null, pos
       setTimeout(() => {
         setSuccess("")
       }, 2000)
-      router.refresh()
+      //router.refresh()
     }
 
     const data = await res.json()

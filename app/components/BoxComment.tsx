@@ -1,5 +1,5 @@
 import { CommentType } from "../type"
-import OptionComment from "./comment/OptionComment"
+//import OptionComment from "./comment/OptionComment"
 import Images from "./Images"
 
 const BoxComment = ({comment} : {comment : CommentType}) => {
@@ -13,7 +13,9 @@ const BoxComment = ({comment} : {comment : CommentType}) => {
                         <p className="text-stone-500 text-[.8rem] leading-3">{comment.date}</p>
                     </div>
                 </section>
+                {/*
                 <OptionComment commentId={comment?.commentId}/>
+                */}
         </header> 
         <article className="w-full">
             <p className="text-stone-700 text-sm ml-[4rem]">{comment.desc}</p>

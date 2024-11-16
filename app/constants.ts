@@ -50,6 +50,19 @@ export const QUERY_POST = gql`
       }
     }`;
 
+export const QUERY_POST_BY_ID = gql`
+    query queryPostById($id:ID!) {
+      post : queryPostsById(id:$id){
+        id
+        user
+        username
+        text
+        image
+        date
+        comments
+      }
+    }`;
+
 
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -64,5 +77,14 @@ export const UPDATE_USER = gql`
 export const DELETE_USER = gql`
   mutation DeleteUser($deleteUserId: ID!) {
     deleteUser(id: $deleteUserId)
+  }
+`;
+
+
+export const CREATE_COMMENT = gql`
+  mutation createComment($comment:CommentInput!) {
+    addComment(comment : $comment){
+      id
+    } 
   }
 `;

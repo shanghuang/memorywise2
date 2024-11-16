@@ -28,7 +28,7 @@ const PostList = ({keyword}) => {
       {posts?.map((post, i) => 
         (
         <>
-          <Card {...post} key={i} initialData={posts} />
+          <Card {...post} key={i.toString()} initialData={posts} />
         </>))}
     </main>
   )

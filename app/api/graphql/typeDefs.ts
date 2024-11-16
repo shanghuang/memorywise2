@@ -3,8 +3,6 @@
 //const typeDefs = gql`
 const typeDefs = `#graphql
 
-
-
     scalar Date
     
     type Post{
@@ -199,15 +197,32 @@ const typeDefs = `#graphql
     type QAAnswerScoreOutput{
         id:ID
         userId:ID
+        username:String
         score:Int
         text:String
         date:Date
     }
 
-    input Comment{
+    input CommentInput{
+        parent:ID
         userId:ID
-        post:ID
+        username:String
         text:String
+        date:Date
+    }
+
+    type Comments{
+        id:ID
+        comments:[Comment]
+    }
+
+    type Comment{
+        id:ID
+        parent:ID
+        userId:ID
+        username:String
+        text:String
+        comments:Comments
         date:Date
     }
 
@@ -215,6 +230,7 @@ const typeDefs = `#graphql
         id:ID
         userId:ID
         text:String
+        comments:Comments
         date:Date
     }
 
@@ -236,6 +252,7 @@ const typeDefs = `#graphql
         user: User
         users: [User]
         queryPosts(keyword:String):[PostOutput]
+        queryPostsById(id:ID!):PostOutput
     }
 
     type Mutation{
@@ -244,6 +261,7 @@ const typeDefs = `#graphql
         deleteUser(id: ID!): String
 
         addPost(post:PostInput):PostOutput
+        addComment(comment:CommentInput):CommentOutput
     }
 
 `;

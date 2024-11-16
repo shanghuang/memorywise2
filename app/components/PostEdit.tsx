@@ -72,6 +72,7 @@ const PostEdit: React.FC<CardProps> = ({
             username : session?.user?.email,
             keyword : keyword,
             text : text, 
+            //comments: [],
             date : postDate } },
         });
         console.log("createUser result:" + res.data?.createPost?.post);

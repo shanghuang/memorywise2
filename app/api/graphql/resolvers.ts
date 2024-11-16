@@ -33,8 +33,14 @@ const resolvers = {
       } catch (error) {
         throw new Error("Failed to query posts");
       }
-
-    }
+    },
+    queryPostsById: async (_: any, { id }: any, context: any) => {
+      try {
+        return await context.dataSources.posts.queryPostById({ id });
+      } catch (error) {
+        throw new Error("Failed to query post by id");
+      }
+    },
   },
   Mutation: {
     createUser: async (_: any, { input }: any, context: any) => {

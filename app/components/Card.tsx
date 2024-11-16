@@ -33,17 +33,18 @@ const Card: React.FC<CardProps> = ({
   //image,
   text,
   initialData,
-  _id,   //postId,
+  id,   //postId,
   likes,
   user, //user Id
   date,
 }) => {
+
   const { data: session } = useSession();
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const { trigger } = useMutation("https://p3social.vercel.app/api/post", fetcher);
   const userId = user;
-  const postId = _id;
+  const postId = id;
   const handleLike = async (postId: string) => {
     const mappedData = initialData.map((data) => {
       if (data.postId === postId) {
@@ -125,7 +126,7 @@ const Card: React.FC<CardProps> = ({
   //image = image ? image : profilePic;
 
   return (
-    <nav className="bg-white w-[80vw] md:w-[60vw] h-[24.5rem] lg:w-[40vw] xl:w-[40vw] rounded-xl shadow-sm">
+    <nav key={id} className="bg-white w-[80vw] md:w-[60vw] h-[24.5rem] lg:w-[40vw] xl:w-[40vw] rounded-xl shadow-sm">
       <header
         className={`w-full flex items-center gap-2 p-3`}
       >
@@ -185,7 +186,9 @@ const Card: React.FC<CardProps> = ({
           >
             <p className="text-stone-800 font-[500] text-[.9rem]">{username}</p>
           </Link>
-          <p className="text-stone-700 text-[.8rem]">{text}</p>
+          <Link href={`/post/${postId}`} >
+            <p className="text-stone-700 text-[.8rem]">{text}</p>
+          </Link>
         </div>
       </footer>
     </nav>
