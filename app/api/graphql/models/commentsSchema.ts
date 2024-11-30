@@ -22,14 +22,14 @@ export const commentSchema = new mongoose.Schema({
 
 const commentsSchema = new mongoose.Schema({
     parentPost: {
-        type: mongoose.Types.ObjectId, ref: 'Comments'
+        type: mongoose.Types.ObjectId, ref: 'Posts'
     },
-    parentComment: {    
-        type: mongoose.Types.ObjectId, ref: 'Comment'
+    parentComments: {    
+        type: mongoose.Types.ObjectId, ref: 'Comments'
     },
     comments: {
         type: [commentSchema]
     }
 });
 
-export default mongoose.models.CommentsModel || mongoose.model('Comments', commentsSchema);
+export default mongoose.models.Comments || mongoose.model('Comments', commentsSchema);

@@ -41,6 +41,15 @@ const resolvers = {
         throw new Error("Failed to query post by id");
       }
     },
+    queryCommentsById: async (_: any, { id }: any, context: any) => {
+      try {
+        console.log("Querying comments with id:(resolver) ");  console.log(id);
+        return await context.dataSources.comments.queryCommentsById({ id });
+      } catch (error) {
+        throw new Error("Failed to query comments by id");
+      }
+    },
+    
   },
   Mutation: {
     createUser: async (_: any, { input }: any, context: any) => {
@@ -87,7 +96,20 @@ const resolvers = {
       }
     },
 
-    
+    addComment: async (_: any, { comment }: any, context: any) => {
+      try {
+        console.log("Creating new post:"); console.log(comment);
+
+        console.log("dataSources:"); console.log(context.dataSources.comments.createComment);
+        const created = await context.dataSources.comments.addComment({
+          comment,
+        });
+        console.log("Created comment:" + created);
+        return created;
+      } catch (error) {
+        throw new Error("Failed to create post:" + error);
+      }
+    },
   },
 };
 

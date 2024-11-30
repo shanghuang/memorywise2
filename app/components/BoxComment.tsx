@@ -7,7 +7,7 @@ const BoxComment = ({comment} : {comment : CommentType}) => {
     <main className="w-screen rounded-xl h-max bg-white p-2 md:w-[95vw] md:p-6">
         <header className="p-2 relative">
                 <section className="flex items-center gap-2"> 
-                    <Images image={comment.profile}/>
+                    {/*<Images image={comment.profile}/>*/}
                     <div className="flex flex-col justify-center ">
                         <p className="text-stone-700 text-[1rem] font-[500]">{comment.username}</p>
                         <p className="text-stone-500 text-[.8rem] leading-3">{comment.date}</p>
@@ -18,7 +18,7 @@ const BoxComment = ({comment} : {comment : CommentType}) => {
                 */}
         </header> 
         <article className="w-full">
-            <p className="text-stone-700 text-sm ml-[4rem]">{comment.desc}</p>
+            <p className="text-stone-700 text-sm ml-[4rem]">{comment.text}</p>
         </article>
     </main>
   )

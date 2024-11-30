@@ -1,5 +1,6 @@
 "use client"
-import { Session } from "next-auth"
+//import { Session } from "next-auth"
+import { useSession } from "next-auth/react";
 import { BiPaperPlane, BiWorld } from "react-icons/bi"
 import { CommentType } from "../type"
 import Images from "./Images"
@@ -7,16 +8,24 @@ import { TbHourglassEmpty } from 'react-icons/tb'
 import React, { ChangeEvent, useState } from "react"
 //import { useRouter } from "next/navigation"
 import { useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import BoxComment from "./BoxComment"
-import { CREATE_COMMENT } from "../constants";
+import { CREATE_COMMENT, QUERY_COMMENTS_BY_ID } from "../constants";
 
-const Comments: React.FC<{ comments: CommentType[], session: Session | null, postId: string }> = (
-  { comments, session, postId }) => {
+
+const Comments: React.FC<{ commentsId, postId: string }> = (
+  { commentsId, postId }) => {
+
+  const { data: session } = useSession();
   const [desc, setDesc] = useState("")
   const [isAdding, setIsAdding] = useState(false)
   const [success, setSuccess] = useState("")
   //const router = useRouter()
   const [createComment] = useMutation(CREATE_COMMENT);
+  const { loading, error, data, refetch } = useQuery(QUERY_COMMENTS_BY_ID,{
+    variables: { id: commentsId }
+  });
+  const comments = data?.comments;
 
   const handleComment = (e: ChangeEvent<HTMLInputElement>) => {
     setDesc(e.target.value)
@@ -37,11 +46,12 @@ const Comments: React.FC<{ comments: CommentType[], session: Session | null, pos
     const postDate = new Date();
     const userId = session?.id; 
 
+    console.log("Creating new comment(handleSend):");
+    console.log({ parent: comments, userId, username: session?.user?.email, text: desc, date: postDate });
     const res = await createComment({
       variables: { comment: { 
-        parent : postId,
-        parentType : "post",
-        user : userId, 
+        parent : comments,     // parent comment
+        userId : userId, 
         username : session?.user?.email,
         text : desc, 
         date : postDate } },
@@ -56,7 +66,7 @@ const Comments: React.FC<{ comments: CommentType[], session: Session | null, pos
       //router.refresh()
     }
 
-    const data = await res.json()
+    //const data = await res.json()
   }
 
   return (
@@ -82,7 +92,7 @@ const Comments: React.FC<{ comments: CommentType[], session: Session | null, pos
       {comments?.length ?
         <>
           <main className="md:pl-16 md:mt-3">
-            {comments.map((comment, i) => (
+            {comments?.map((comment, i) => (
               <React.Fragment key={i}>
                 <BoxComment comment={comment} />
               </React.Fragment>

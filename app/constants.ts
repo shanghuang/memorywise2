@@ -88,3 +88,17 @@ export const CREATE_COMMENT = gql`
     } 
   }
 `;
+
+
+export const QUERY_COMMENTS_BY_ID = gql`
+    query queryCommentsById($id:ID!) {
+      comments : queryCommentsById(id:$id){
+
+          userId
+          username
+          text
+          date
+          comments
+
+      }
+    }`;

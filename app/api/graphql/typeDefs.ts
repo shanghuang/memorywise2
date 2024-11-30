@@ -222,16 +222,22 @@ const typeDefs = `#graphql
         userId:ID
         username:String
         text:String
-        comments:Comments
+        comments:ID
         date:Date
     }
 
     type CommentOutput{
         id:ID
         userId:ID
+        username:String
         text:String
-        comments:Comments
+        comments:ID
         date:Date
+    }
+
+    type CommentsOutput{
+        id:ID
+        comments:[CommentOutput]
     }
 
     input CoinInput{
@@ -253,6 +259,7 @@ const typeDefs = `#graphql
         users: [User]
         queryPosts(keyword:String):[PostOutput]
         queryPostsById(id:ID!):PostOutput
+        queryCommentsById(id:ID!):[CommentOutput]
     }
 
     type Mutation{

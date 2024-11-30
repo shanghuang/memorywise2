@@ -5,10 +5,14 @@ import { NextRequest } from "next/server";
 //import typeDefs from "./schema";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import Users from "./datasources/User";
+
 import User from "./models/userSchema";
 import Post from "./models/postSchema";
+import Comments from "./models/commentsSchema";
+
+import Users from "./datasources/User";
 import Posts from "./datasources/Post";
+import CommentsDS from "./datasources/Comments";
 
 const uri = process.env.NEXT_PUBLIC_MONGODB_URI;
 
@@ -40,6 +44,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
     dataSources: {
       users: new Users({ modelOrCollection: User }),
       posts: new Posts({ modelOrCollection: Post }),
+      comments: new CommentsDS({ modelOrCollection: Comments }),
     },
   }),
 });
